@@ -2,7 +2,7 @@ package examples
 
 import edu.ucsd.sccn.LSL
 
-object ReceiveData extends App {
+object DataReceiver extends App {
     println("Resolving an EEG stream...")
     val results = LSL.resolve_stream("type", "EEG")
     val inlet = new LSL.StreamInlet(results(0))

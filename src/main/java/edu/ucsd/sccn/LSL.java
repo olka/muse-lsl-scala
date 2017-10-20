@@ -40,7 +40,7 @@ public class LSL {
   /**
     * Data format of a channel (each transmitted sample holds an array of channels).
     */
-  public class ChannelFormat {
+  public static class ChannelFormat {
     public static final int float32 = 1;    /** For up to 24-bit precision measurements in the appropriate physical unit
       *  (e.g., microvolts). Integers from -16777216 to 16777216 are represented accurately. */
     public static final int double64 = 2;   /** For universal numeric data as long as permitted by network & disk budget.
