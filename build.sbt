@@ -13,10 +13,10 @@ libraryDependencies ++= {
   Seq(
     "net.java.dev.jna" % "jna" % "4.2.2",
     "com.typesafe.akka" %% "akka-actor" % akkaV,
-//    "com.typesafe.akka" %% "akka-stream" % akkaV,
+    "com.typesafe.akka" %% "akka-stream" % akkaV,
     "com.typesafe.akka" %% "akka-testkit" % akkaV,
     "com.typesafe.akka" %% "akka-http" % akkaHttpV,
-//    "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttpV,
+    "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttpV,
 //    "com.typesafe.akka" %% "akka-http-testkit" % akkaHttpV,
     "org.scalatest"     %% "scalatest" % scalaTestV % "test",
 //    "io.gatling.highcharts" % "gatling-charts-highcharts" % "2.2.2" % "test",
