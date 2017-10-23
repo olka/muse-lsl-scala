@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>akka-http-oboe-streaming</title>
+    <script src="js/oboe-browser.min.js"></script>
+    <script src="js/echarts.common.min.js"></script>
+</head>
+<body>
+<div id="eegchart" style="width: 1300px;height:700px;"/>
+
+
+<script>
+
+var tp9 = [0];
+var axisData = [0];
+var af7 = [0];
+var fpz = [0];
+var af8 = [0];
+var tp10 = [0];
+
+var myChart = echarts.init(document.getElementById('eegchart'));
+
+function handleTickStream(url,divId) {
+    oboe(url)
+        .done(function(el){
+        console.log(JSON.stringify(el));
+        el.map((e) => {
+                tp9.push(parseFloat(e.tp9));
+                af7.push(parseFloat(e.af7));
+                fpz.push(parseFloat(e.fpz));
+                tp10.push(parseFloat(e.tp10));
+                af8.push(parseFloat(e.af8));
+                axisData.push(axisData.length);
+            });
+            myChart.setOption(getOptions(tp9,af7,fpz,af8,tp10));
+        })
+        .fail(function(errorReport) {
+            console.log(errorReport);
+        });
+        return null;
+    }
+
+onload = handleTickStream('http://localhost:9000/eegSnapshot','itick-holder')
+myChart.setOption(getOptions(tp9,af7,fpz,af8,tp10));
+
+
+function getOptions(tp9,af7,fpz,af8,tp10){
+    return {
+    dataZoom: [
+        {
+            show: true,
+            realtime: true,
+            start: 30,
+            end: 70
+        }
+    ],
+      grid: [{
+        left: 50,
+        right: 50,
+        height: '80%'
+    }],
+     xAxis : [
+        {
+            type : 'category',
+            boundaryGap : false,
+            data: axisData
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value',
+        }
+    ],
+    series: [
+
+    {
+            name:'tp9',
+            type:'line',
+            data: tp9,
+            smooth:true,
+            symbol: 'none',
+            sampling: 'average'
+    },
+    {
+            name:'af7',
+            type:'line',
+            data: af7,
+            smooth:true,
+            symbol: 'none',
+            sampling: 'average'
+    },
+    {
+            name:'fpz',
+            type:'line',
+            data: fpz,
+            smooth:true,
+            symbol: 'none',
+            sampling: 'average'
+    },
+    {
+            name:'af8',
+            type:'line',
+            data: af8,
+            smooth:true,
+            symbol: 'none',
+            sampling: 'average'
+    },
+    {
+            name:'tp10',
+            type:'line',
+            data: tp10,
+            smooth:true,
+            symbol: 'none',
+            sampling: 'average'
+    }
+    ]
+    };
+}
+
+</script>
+
+</body>
+</html>

@@ -9,6 +9,7 @@ libraryDependencies ++= {
   val akkaV       = "2.5.6"
   val akkaHttpV   = "10.0.10"
   val scalaTestV  = "3.0.4"
+  val mongoClientV  = "2.0.0"
 
   Seq(
     "net.java.dev.jna" % "jna" % "4.2.2",
@@ -17,7 +18,8 @@ libraryDependencies ++= {
     "com.typesafe.akka" %% "akka-testkit" % akkaV,
     "com.typesafe.akka" %% "akka-http" % akkaHttpV,
     "com.typesafe.akka" %% "akka-http-spray-json" % akkaHttpV,
-//    "com.typesafe.akka" %% "akka-http-testkit" % akkaHttpV,
+    "org.mongodb.scala" %% "mongo-scala-driver" % mongoClientV,
+    "com.typesafe.akka" %% "akka-http-testkit" % akkaHttpV,
     "org.scalatest"     %% "scalatest" % scalaTestV % "test",
 //    "io.gatling.highcharts" % "gatling-charts-highcharts" % "2.2.2" % "test",
 //    "io.gatling"            % "gatling-test-framework"    % "2.2.2" % "test"

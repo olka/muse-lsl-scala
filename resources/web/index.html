@@ -3,19 +3,50 @@
 
 <head>
     <title>akka-http-oboe-streaming</title>
+    <script src="js/oboe-browser.min.js"></script>
+    <script src="js/echarts.common.min.js"></script>
 </head>
 <body>
-<script src="oboe-browser.min.js"></script>
+<div class="main" style="overflow:hidden;">
+    <div style="width:50%; float:left;">
+        <div class="col" id="itick-holder">
+            <p id="itick-0"/>
+        </div>
+    </div>
 
-<script>
+    <div style="width:90%; float:right;">
+        <div id="eegchart" style="width: 1200px;height:550px;"></div>
+    </div>
+    <script>
+
+var tp9 = [0];
+var af7 = [0];
+var fpz = [0];
+var af8 = [0];
+var tp10 = [0];
+
+var myChart = echarts.init(document.getElementById('eegchart'));
+
 function handleTickStream(url,divId) {
     oboe(url)
         .node('!.*', function(el){
-            console.log(el);
-                    var holder = document.getElementById(divId);
-                    var paragraph = document.createElement("p");
-                    paragraph.appendChild(document.createTextNode(JSON.stringify(el)));
-                    holder.insertBefore(paragraph, holder.childNodes[0]);
+                tp9.push(parseFloat(el.tp9));
+                af7.push(parseFloat(el.af7));
+                fpz.push(parseFloat(el.fpz));
+                tp10.push(parseFloat(el.tp10));
+                if(af8.push(parseFloat(el.af8))==18){
+                    tp9.shift();
+                    af7.shift();
+                    fpz.shift();
+                    af8.shift();
+                    tp10.shift();
+                }
+                    <!--var holder = document.getElementById(divId);-->
+                    <!--var paragraph = document.createElement("p");-->
+                    <!--paragraph.appendChild(document.createTextNode(JSON.stringify(el)));-->
+                    <!--holder.insertBefore(paragraph, holder.childNodes[0]);-->
+
+            myChart.setOption(getOptions(tp9,af7,fpz,af8,tp10));
             return oboe.drop; //memory clean up
         })
         .fail(function(errorReport) {
@@ -25,15 +56,76 @@ function handleTickStream(url,divId) {
     }
 
 onload = handleTickStream('http://localhost:9000/eegStream','itick-holder')
+myChart.setOption(getOptions(tp9,af7,fpz,af8,tp10));
+
+
+
+
+    function getOptions(tp9,af7,fpz,af8,tp10){
+    var axisData = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18'];
+        return {
+        grid: [
+        {x: '7%', y: '0%', width: '100%', height: '17%'},
+        {x: '7%', y: '20%', width: '100%', height: '17%'},
+        {x: '7%', y: '40%', width: '100%', height: '17%'},
+        {x: '7%', y: '60%', width: '100%', height: '17%'},
+        {x: '7%', y: '80%', width: '100%', height: '17%'}
+        ],
+        xAxis: [
+        {gridIndex: 0,  type : 'category', data: axisData},
+        {gridIndex: 1,  type : 'category', data: axisData},
+        {gridIndex: 2,  type : 'category', data: axisData},
+        {gridIndex: 3,  type : 'category', data: axisData},
+        {gridIndex: 4,  type : 'category', data: axisData}
+        ],
+        yAxis: [
+        {gridIndex: 0, type : 'value'},
+        {gridIndex: 1, type : 'value'},
+        {gridIndex: 2, type : 'value'},
+        {gridIndex: 3, type : 'value'},
+        {gridIndex: 4, type : 'value'}
+        ],
+        series: [
+        {
+        name: 'I',
+        type: 'line',
+        xAxisIndex: 0,
+        yAxisIndex: 0,
+        data: tp9
+        },
+        {
+        name: 'II',
+        type: 'line',
+        xAxisIndex: 1,
+        yAxisIndex: 1,
+        data: af7
+        },
+        {
+        name: 'III',
+        type: 'line',
+        xAxisIndex: 2,
+        yAxisIndex: 2,
+        data: fpz
+        },
+        {
+        name: 'IV',
+        type: 'line',
+        xAxisIndex: 3,
+        yAxisIndex: 3,
+        data: af8
+        },
+        {
+        name: 'V',
+        type: 'line',
+        xAxisIndex: 4,
+        yAxisIndex: 4,
+        data: tp10
+        }
+        ]};
+        }
+
+
 </script>
 
-<div class="main" style="overflow:hidden;">
-    <div style="width:50%; float:left;">
-        <h2>EEG</h2>
-        <div class="col" id="itick-holder">
-            <p id="itick-0"/>
-        </div>
-    </div>
-</div>
 </body>
 </html>

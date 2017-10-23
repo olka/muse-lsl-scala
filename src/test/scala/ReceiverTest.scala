@@ -4,8 +4,8 @@ import java.util.concurrent.Executors
 
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
-import examples.{DataReceiver}
 import mock.DataSender
+import org.olka.eeg.DataReceiver
 import org.scalatest.{FlatSpec, Matchers}
 
 import concurrent.duration._
@@ -20,7 +20,7 @@ class ReceiverTest extends FlatSpec with Matchers {
 
   "Receiver" should "be able to receive LSL packets" in {
     Future { DataSender.sendData(150) } //    Future {DataReceiver.receive.runForeach(println)}
-    val res =  Await.result(DataReceiver.receive.runFold(0)((c,e)=>c+1), 15 seconds)
+    val res =  Await.result(DataReceiver.eegSource.runFold(0)((c,e)=>c+1), 15 seconds)
     res should be >20
   }
 }

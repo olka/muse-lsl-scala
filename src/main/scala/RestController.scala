@@ -3,7 +3,7 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
 import com.typesafe.config.ConfigFactory
-import examples.DataReceiver
+import org.olka.eeg.DataReceiver
 
 object RestController extends App {
   implicit val system = ActorSystem()

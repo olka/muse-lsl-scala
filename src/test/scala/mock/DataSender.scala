@@ -27,7 +27,7 @@ object DataSender {
   }
 
   def main(args: Array[String]): Unit = {
-    sendData(10000)
+    sendData(1000000)
   }
 
 }
